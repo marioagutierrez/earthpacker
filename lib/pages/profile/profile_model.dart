@@ -1,0 +1,27 @@
+import '/componentes/navbar/navbar_widget.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
+import 'profile_widget.dart' show ProfileWidget;
+import 'package:flutter/material.dart';
+
+class ProfileModel extends FlutterFlowModel<ProfileWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  bool isDataUploading_uploadDataXqe = false;
+  FFUploadedFile uploadedLocalFile_uploadDataXqe =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl_uploadDataXqe = '';
+
+  // Model for navbar component.
+  late NavbarModel navbarModel;
+
+  @override
+  void initState(BuildContext context) {
+    navbarModel = createModel(context, () => NavbarModel());
+  }
+
+  @override
+  void dispose() {
+    navbarModel.dispose();
+  }
+}

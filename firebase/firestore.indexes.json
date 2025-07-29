@@ -1,0 +1,18 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "chat_message",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "chat_message",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timetamp",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ]
+}

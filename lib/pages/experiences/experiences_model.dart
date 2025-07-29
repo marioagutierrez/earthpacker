@@ -1,0 +1,21 @@
+import '/componentes/navbar/navbar_widget.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import 'experiences_widget.dart' show ExperiencesWidget;
+import 'package:flutter/material.dart';
+
+class ExperiencesModel extends FlutterFlowModel<ExperiencesWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // Model for navbar component.
+  late NavbarModel navbarModel;
+
+  @override
+  void initState(BuildContext context) {
+    navbarModel = createModel(context, () => NavbarModel());
+  }
+
+  @override
+  void dispose() {
+    navbarModel.dispose();
+  }
+}

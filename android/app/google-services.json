@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "54192436643",
+    "project_id": "earthpacker-50a05",
+    "storage_bucket": "earthpacker-50a05.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54192436643:android:f156a3c4dbbddee7b89616",
+        "android_client_info": {
+          "package_name": "com.earthpacker.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiHXEn1W0o3g-w94MrQXqeY7KX2tP60OM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
