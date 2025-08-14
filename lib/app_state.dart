@@ -90,4 +90,10 @@ class FFAppState extends ChangeNotifier {
   set testlatlang(LatLng? value) {
     _testlatlang = value;
   }
+
+  bool _rastrear = false;
+  bool get rastrear => _rastrear;
+  set rastrear(bool value) {
+    _rastrear = value;
+  }
 }

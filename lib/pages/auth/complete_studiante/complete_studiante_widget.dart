@@ -327,7 +327,7 @@ class _CompleteStudianteWidgetState extends State<CompleteStudianteWidget> {
                               Text(
                                 valueOrDefault<String>(
                                   dateTimeFormat("d/M/y", _model.datePicked),
-                                  'Fecha de necimineto',
+                                  'Fecha de nacimiento',
                                 ),
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -980,9 +980,20 @@ class _CompleteStudianteWidgetState extends State<CompleteStudianteWidget> {
                             _model.dropDownValue != '')
                         ? null
                         : () async {
-                            await StudentsRecord.collection
-                                .doc()
+                            var studentsRecordReference =
+                                StudentsRecord.collection.doc();
+                            await studentsRecordReference
                                 .set(createStudentsRecordData(
+                              user: currentUserReference,
+                              institucion: _model.dropDownValue,
+                              carrera: _model.textController1.text,
+                              grado: _model.textController2.text,
+                              matricula: _model.textController3.text,
+                              contact: _model.textController4.text,
+                              interes: _model.textController5.text,
+                            ));
+                            _model.ref = StudentsRecord.getDocumentFromData(
+                                createStudentsRecordData(
                                   user: currentUserReference,
                                   institucion: _model.dropDownValue,
                                   carrera: _model.textController1.text,
@@ -990,7 +1001,15 @@ class _CompleteStudianteWidgetState extends State<CompleteStudianteWidget> {
                                   matricula: _model.textController3.text,
                                   contact: _model.textController4.text,
                                   interes: _model.textController5.text,
-                                ));
+                                ),
+                                studentsRecordReference);
+
+                            await currentUserReference!
+                                .update(createUsersRecordData(
+                              estudianteRef: _model.ref?.reference,
+                            ));
+
+                            safeSetState(() {});
                           },
                     text: 'Continuar',
                     options: FFButtonOptions(

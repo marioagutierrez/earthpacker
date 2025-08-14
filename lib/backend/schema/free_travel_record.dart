@@ -50,6 +50,16 @@ class FreeTravelRecord extends FirestoreRecord {
   bool get status => _status ?? false;
   bool hasStatus() => _status != null;
 
+  // "ruta" field.
+  String? _ruta;
+  String get ruta => _ruta ?? '';
+  bool hasRuta() => _ruta != null;
+
+  // "mailto" field.
+  String? _mailto;
+  String get mailto => _mailto ?? '';
+  bool hasMailto() => _mailto != null;
+
   void _initializeFields() {
     _user = snapshotData['user'] as DocumentReference?;
     _destino = snapshotData['destino'] as String?;
@@ -58,6 +68,8 @@ class FreeTravelRecord extends FirestoreRecord {
     _descrip = snapshotData['descrip'] as String?;
     _coments = snapshotData['coments'] as String?;
     _status = snapshotData['status'] as bool?;
+    _ruta = snapshotData['ruta'] as String?;
+    _mailto = snapshotData['mailto'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -102,6 +114,8 @@ Map<String, dynamic> createFreeTravelRecordData({
   String? descrip,
   String? coments,
   bool? status,
+  String? ruta,
+  String? mailto,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -112,6 +126,8 @@ Map<String, dynamic> createFreeTravelRecordData({
       'descrip': descrip,
       'coments': coments,
       'status': status,
+      'ruta': ruta,
+      'mailto': mailto,
     }.withoutNulls,
   );
 
@@ -129,7 +145,9 @@ class FreeTravelRecordDocumentEquality implements Equality<FreeTravelRecord> {
         e1?.fechaOut == e2?.fechaOut &&
         e1?.descrip == e2?.descrip &&
         e1?.coments == e2?.coments &&
-        e1?.status == e2?.status;
+        e1?.status == e2?.status &&
+        e1?.ruta == e2?.ruta &&
+        e1?.mailto == e2?.mailto;
   }
 
   @override
@@ -140,7 +158,9 @@ class FreeTravelRecordDocumentEquality implements Equality<FreeTravelRecord> {
         e?.fechaOut,
         e?.descrip,
         e?.coments,
-        e?.status
+        e?.status,
+        e?.ruta,
+        e?.mailto
       ]);
 
   @override

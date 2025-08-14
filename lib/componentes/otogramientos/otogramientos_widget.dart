@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'otogramientos_model.dart';
 export 'otogramientos_model.dart';
@@ -33,6 +34,12 @@ class _OtogramientosWidgetState extends State<OtogramientosWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => OtogramientosModel());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.otorgamientos = [];
+      safeSetState(() {});
+    });
   }
 
   @override
@@ -198,12 +205,15 @@ class _OtogramientosWidgetState extends State<OtogramientosWidget> {
                                                 BorderRadius.circular(20.0),
                                             border: Border.all(
                                               color: Colors.black,
-                                              width: containerOtorgamientosRecord
-                                                          .reference ==
-                                                      containerOtorgamientosRecord
-                                                          .reference
-                                                  ? 3.0
-                                                  : 0.0,
+                                              width: valueOrDefault<double>(
+                                                containerOtorgamientosRecord
+                                                            .reference ==
+                                                        containerOtorgamientosRecord
+                                                            .reference
+                                                    ? 3.0
+                                                    : 0.0,
+                                                0.0,
+                                              ),
                                             ),
                                           ),
                                           child: Column(
@@ -278,7 +288,7 @@ class _OtogramientosWidgetState extends State<OtogramientosWidget> {
               Align(
                 alignment: AlignmentDirectional(0.0, 1.0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 50.0),
                   child: FFButtonWidget(
                     onPressed: () async {
                       Navigator.pop(context, _model.otorgamientos);
@@ -313,6 +323,44 @@ class _OtogramientosWidgetState extends State<OtogramientosWidget> {
                               ),
                       elevation: 0.0,
                       borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: AlignmentDirectional(0.0, 1.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Cerrar',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.inter(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                            decoration: TextDecoration.underline,
+                          ),
                     ),
                   ),
                 ),

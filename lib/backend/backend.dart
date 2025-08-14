@@ -22,6 +22,7 @@ import 'schema/institutos_record.dart';
 import 'schema/free_travel_record.dart';
 import 'schema/students_record.dart';
 import 'schema/intituciones_registradas_record.dart';
+import 'schema/comunidad_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -47,6 +48,7 @@ export 'schema/institutos_record.dart';
 export 'schema/free_travel_record.dart';
 export 'schema/students_record.dart';
 export 'schema/intituciones_registradas_record.dart';
+export 'schema/comunidad_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -677,6 +679,43 @@ Future<List<IntitucionesRegistradasRecord>>
           limit: limit,
           singleRecord: singleRecord,
         );
+
+/// Functions to query ComunidadRecords (as a Stream and as a Future).
+Future<int> queryComunidadRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      ComunidadRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<ComunidadRecord>> queryComunidadRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      ComunidadRecord.collection,
+      ComunidadRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<ComunidadRecord>> queryComunidadRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      ComunidadRecord.collection,
+      ComunidadRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
 
 Future<int> queryCollectionCount(
   Query collection, {

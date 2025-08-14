@@ -2,17 +2,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'complete_voluntario_widget.dart' show CompleteVoluntarioWidget;
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CompleteVoluntarioModel
     extends FlutterFlowModel<CompleteVoluntarioWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode;
-  TextEditingController? textController1;
-  late MaskTextInputFormatter textFieldMask;
-  String? Function(BuildContext, String?)? textController1Validator;
   // State field(s) for profesion widget.
   FocusNode? profesionFocusNode;
   TextEditingController? profesionTextController;
@@ -37,9 +31,6 @@ class CompleteVoluntarioModel
 
   @override
   void dispose() {
-    textFieldFocusNode?.dispose();
-    textController1?.dispose();
-
     profesionFocusNode?.dispose();
     profesionTextController?.dispose();
 

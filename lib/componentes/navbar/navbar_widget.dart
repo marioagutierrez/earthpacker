@@ -128,7 +128,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                       size: 25.0,
                     ),
                     Text(
-                      'Experiencias',
+                      'Aprende',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FlutterFlowTheme.of(context)
@@ -189,7 +189,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
-                        'assets/images/logoWP.png',
+                        'assets/images/iconoEarthPackers.png',
                         width: 25.0,
                         height: 30.0,
                         fit: BoxFit.cover,
@@ -208,7 +208,9 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                                   .bodyMedium
                                   .fontStyle,
                             ),
-                            color: Colors.black,
+                            color: widget.selectedPage == 3
+                                ? FlutterFlowTheme.of(context).tertiary
+                                : Colors.black,
                             letterSpacing: 0.0,
                             fontWeight: FlutterFlowTheme.of(context)
                                 .bodyMedium

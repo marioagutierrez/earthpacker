@@ -1,7 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
-import '/componentes/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_toggle_icon.dart';
@@ -33,6 +32,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ProfileModel());
+
+    _model.switchValue = FFAppState().rastrear;
   }
 
   @override
@@ -347,6 +348,66 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           ),
                         ),
                       Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Switch.adaptive(
+                              value: _model.switchValue!,
+                              onChanged: (newValue) async {
+                                safeSetState(
+                                    () => _model.switchValue = newValue);
+                                if (newValue) {
+                                  FFAppState().rastrear =
+                                      !(FFAppState().rastrear ?? true);
+                                  FFAppState().update(() {});
+                                  _model.location =
+                                      await UsersRecord.getDocumentOnce(
+                                          currentUserReference!);
+
+                                  await _model.location!.lacation!
+                                      .update(createUbicacionesRecordData(
+                                    visible: FFAppState().rastrear,
+                                  ));
+
+                                  safeSetState(() {});
+                                }
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).tertiary,
+                              activeTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveTrackColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              inactiveThumbColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                            ),
+                            Text(
+                              'Ubicación',
+                              textAlign: TextAlign.center,
+                              style: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
                         child: InkWell(
                           splashColor: Colors.transparent,
                           focusColor: Colors.transparent,
@@ -447,7 +508,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 12.0),
                                   child: Text(
-                                    'Configuracion',
+                                    'Configuración',
                                     style: FlutterFlowTheme.of(context)
                                         .headlineSmall
                                         .override(
@@ -755,44 +816,53 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 8.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context.pushNamed(
-                                          ExperienciasAnfWidget.routeName);
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 8.0, 16.0, 8.0),
-                                          child: Icon(
-                                            Icons.accessibility_new_sharp,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 24.0,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 12.0, 0.0),
-                                            child: Text(
-                                              'Mis Posiciones',
-                                              textAlign: TextAlign.start,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                if (valueOrDefault<bool>(
+                                    currentUserDocument?.anfitrion, false))
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 8.0),
+                                    child: AuthUserStreamWidget(
+                                      builder: (context) => InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          if (valueOrDefault<bool>(
+                                              currentUserDocument?.anfitrion,
+                                              false)) {
+                                            context.pushNamed(
+                                                ExperienciasAnfWidget
+                                                    .routeName);
+                                          }
+                                        },
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 8.0, 16.0, 8.0),
+                                              child: Icon(
+                                                Icons.accessibility_new_sharp,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                size: 24.0,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 12.0, 0.0),
+                                                child: Text(
+                                                  'Mis Posiciones',
+                                                  textAlign: TextAlign.start,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .bodyMedium
                                                       .override(
                                                         font: GoogleFonts.inter(
@@ -819,13 +889,90 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                if (!valueOrDefault<bool>(
+                                    currentUserDocument?.anfitrion, false))
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 8.0),
+                                    child: AuthUserStreamWidget(
+                                      builder: (context) => InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                              ViajesWidget.routeName);
+                                        },
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 8.0, 16.0, 8.0),
+                                              child: Icon(
+                                                Icons.airplanemode_active,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                size: 24.0,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 12.0, 0.0),
+                                                child: Text(
+                                                  'Mis Viajes',
+                                                  textAlign: TextAlign.start,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 8.0),
@@ -916,13 +1063,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   ),
                 ),
               ],
-            ),
-          ),
-          wrapWithModel(
-            model: _model.navbarModel,
-            updateCallback: () => safeSetState(() {}),
-            child: NavbarWidget(
-              selectedPage: 5,
             ),
           ),
         ],

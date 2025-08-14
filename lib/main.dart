@@ -8,7 +8,9 @@ import 'auth/firebase_auth/auth_util.dart';
 
 import '/backend/supabase/supabase.dart';
 import 'backend/firebase/firebase_config.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,6 +106,107 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       routerConfig: _router,
+    );
+  }
+}
+
+class NavBarPage extends StatefulWidget {
+  NavBarPage({
+    Key? key,
+    this.initialPage,
+    this.page,
+    this.disableResizeToAvoidBottomInset = false,
+  }) : super(key: key);
+
+  final String? initialPage;
+  final Widget? page;
+  final bool disableResizeToAvoidBottomInset;
+
+  @override
+  _NavBarPageState createState() => _NavBarPageState();
+}
+
+/// This is the private State class that goes with NavBarPage.
+class _NavBarPageState extends State<NavBarPage> {
+  String _currentPageName = 'HomePage';
+  late Widget? _currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPageName = widget.initialPage ?? _currentPageName;
+    _currentPage = widget.page;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tabs = {
+      'HomePage': HomePageWidget(),
+      'aprende': AprendeWidget(),
+      'Experiences': ExperiencesWidget(),
+      'ExploreCopy': ExploreCopyWidget(),
+      'Profile': ProfileWidget(),
+    };
+    final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
+      body: _currentPage ?? tabs[_currentPageName],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (i) => safeSetState(() {
+          _currentPage = null;
+          _currentPageName = tabs.keys.toList()[i];
+        }),
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        selectedItemColor: FlutterFlowTheme.of(context).tertiary,
+        unselectedItemColor: Colors.black,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              size: 24.0,
+            ),
+            label: 'Inicio',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.groups,
+              size: 24.0,
+            ),
+            label: 'Aprende',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              FFIcons.kiconoearthpackers,
+              size: 32.0,
+            ),
+            label: 'Comunidad',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.map,
+              size: 24.0,
+            ),
+            label: 'Explorar',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              size: 24.0,
+            ),
+            label: 'Perfil',
+            tooltip: '',
+          )
+        ],
+      ),
     );
   }
 }

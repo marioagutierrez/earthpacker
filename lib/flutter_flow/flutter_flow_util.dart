@@ -30,6 +30,7 @@ export 'package:intl/intl.dart';
 export 'package:cloud_firestore/cloud_firestore.dart'
     show DocumentReference, FirebaseFirestore;
 export 'package:page_transition/page_transition.dart';
+export 'custom_icons.dart' show FFIcons;
 export 'nav/nav.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();

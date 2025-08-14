@@ -13,6 +13,20 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "solicitudes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "usuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dateCreation",
+          "order": "DESCENDING"
+        }
+      ]
     }
   ]
 }

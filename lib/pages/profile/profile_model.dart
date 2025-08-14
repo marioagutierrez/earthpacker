@@ -1,4 +1,4 @@
-import '/componentes/navbar/navbar_widget.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'profile_widget.dart' show ProfileWidget;
@@ -12,16 +12,14 @@ class ProfileModel extends FlutterFlowModel<ProfileWidget> {
       FFUploadedFile(bytes: Uint8List.fromList([]));
   String uploadedFileUrl_uploadDataXqe = '';
 
-  // Model for navbar component.
-  late NavbarModel navbarModel;
+  // State field(s) for Switch widget.
+  bool? switchValue;
+  // Stores action output result for [Backend Call - Read Document] action in Switch widget.
+  UsersRecord? location;
 
   @override
-  void initState(BuildContext context) {
-    navbarModel = createModel(context, () => NavbarModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    navbarModel.dispose();
-  }
+  void dispose() {}
 }

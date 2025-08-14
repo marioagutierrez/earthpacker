@@ -1,8 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/componentes/account_aprove_alert/account_aprove_alert_widget.dart';
-import '/componentes/experiencia_card/experiencia_card_widget.dart';
-import '/componentes/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -72,56 +70,26 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: Stack(
           children: [
-            Stack(
-              children: [
-                Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
-                  child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 60.0, 0.0, 0.0),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Container(
-                            width: MediaQuery.sizeOf(context).width * 0.9,
-                            height: 45.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 4.0,
-                                  color: Color(0x33000000),
-                                  offset: Offset(
-                                    0.0,
-                                    2.0,
-                                  ),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(24.0),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Align(
-                                  alignment: AlignmentDirectional(-1.0, 0.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 0.0, 10.0, 0.0),
-                                    child: Icon(
-                                      Icons.search_sharp,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 20.0,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 10.0, 0.0),
-                                  child: Container(
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.7,
                                     child: TextFormField(
@@ -213,7 +181,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               BorderRadius.circular(24.0),
                                         ),
                                         filled: true,
-                                        fillColor: Colors.transparent,
+                                        fillColor: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        prefixIcon: Icon(
+                                          Icons.search_sharp,
+                                        ),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -247,9 +219,29 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           .asValidator(context),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      context.pushNamed(ChatsWidget.routeName);
+                                    },
+                                    child: Icon(
+                                      Icons.chat_bubble_outline_outlined,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 30.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
@@ -346,117 +338,332 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             thickness: 2.0,
                             color: Color(0xFFDCDCDC),
                           ),
-                          Flexible(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 5.0, 0.0, 8.0),
-                              child: StreamBuilder<List<ExperienciaRecord>>(
-                                stream: queryExperienciaRecord(
-                                  queryBuilder: (experienciaRecord) =>
-                                      experienciaRecord.where(
-                                    'categoria',
-                                    isEqualTo: _model.filtro,
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                20.0, 0.0, 20.0, 0.0),
+                            child: StreamBuilder<List<ExperienciaRecord>>(
+                              stream: queryExperienciaRecord(
+                                queryBuilder: (experienciaRecord) =>
+                                    experienciaRecord.where(Filter.or(
+                                  Filter(
+                                    'activo',
+                                    isEqualTo: true,
                                   ),
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
+                                  Filter(
+                                    'institucion',
+                                    isEqualTo: false,
+                                  ),
+                                )),
+                              ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 50.0,
+                                      height: 50.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          FlutterFlowTheme.of(context).primary,
                                         ),
                                       ),
-                                    );
-                                  }
-                                  List<ExperienciaRecord>
-                                      listViewExperienciaRecordList =
-                                      snapshot.data!;
-
-                                  return ListView.separated(
-                                    padding: EdgeInsets.fromLTRB(
-                                      0,
-                                      0,
-                                      0,
-                                      100.0,
                                     ),
-                                    primary: false,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount:
-                                        listViewExperienciaRecordList.length,
-                                    separatorBuilder: (_, __) =>
-                                        SizedBox(height: 10.0),
-                                    itemBuilder: (context, listViewIndex) {
-                                      final listViewExperienciaRecord =
-                                          listViewExperienciaRecordList[
-                                              listViewIndex];
-                                      return InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          context.pushNamed(
-                                            ExperienciaWidget.routeName,
-                                            pathParameters: {
-                                              'experiencia': serializeParam(
-                                                listViewExperienciaRecord,
-                                                ParamType.Document,
-                                              ),
-                                            }.withoutNulls,
-                                            extra: <String, dynamic>{
-                                              'experiencia':
-                                                  listViewExperienciaRecord,
-                                            },
-                                          );
-                                        },
-                                        child: wrapWithModel(
-                                          model: _model.experienciaCardModels
-                                              .getModel(
-                                            listViewExperienciaRecord
-                                                .reference.id,
-                                            listViewIndex,
-                                          ),
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: ExperienciaCardWidget(
-                                            key: Key(
-                                              'Key53e_${listViewExperienciaRecord.reference.id}',
-                                            ),
-                                            exp: listViewExperienciaRecord
-                                                .reference,
-                                          ),
-                                        ),
-                                      );
-                                    },
                                   );
-                                },
-                              ),
+                                }
+                                List<ExperienciaRecord>
+                                    listViewExperienciaRecordList =
+                                    snapshot.data!;
+
+                                return ListView.separated(
+                                  padding: EdgeInsets.fromLTRB(
+                                    0,
+                                    0,
+                                    0,
+                                    100.0,
+                                  ),
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount:
+                                      listViewExperienciaRecordList.length,
+                                  separatorBuilder: (_, __) =>
+                                      SizedBox(height: 10.0),
+                                  itemBuilder: (context, listViewIndex) {
+                                    final listViewExperienciaRecord =
+                                        listViewExperienciaRecordList[
+                                            listViewIndex];
+                                    return StreamBuilder<ExperienciaRecord>(
+                                      stream: ExperienciaRecord.getDocument(
+                                          listViewExperienciaRecord.reference),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+
+                                        final containerExperienciaRecord =
+                                            snapshot.data!;
+
+                                        return InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            context.pushNamed(
+                                              ExperienciaWidget.routeName,
+                                              pathParameters: {
+                                                'experiencia': serializeParam(
+                                                  listViewExperienciaRecord,
+                                                  ParamType.Document,
+                                                ),
+                                              }.withoutNulls,
+                                              extra: <String, dynamic>{
+                                                'experiencia':
+                                                    listViewExperienciaRecord,
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.8,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(),
+                                                  child: Image.network(
+                                                    containerExperienciaRecord
+                                                        .imagen,
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        1.0,
+                                                    height: 150.0,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  decoration: BoxDecoration(),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        listViewExperienciaRecord
+                                                            .title,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font:
+                                                                      GoogleFonts
+                                                                          .inter(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                    ]
+                                                        .divide(SizedBox(
+                                                            width: 15.0))
+                                                        .around(SizedBox(
+                                                            width: 15.0)),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          15.0, 0.0, 0.0, 0.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        if (containerExperienciaRecord
+                                                                .categoria !=
+                                                            null)
+                                                          StreamBuilder<
+                                                              TipoExpRecord>(
+                                                            stream: TipoExpRecord
+                                                                .getDocument(
+                                                                    containerExperienciaRecord
+                                                                        .categoria!),
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              // Customize what your widget looks like when it's loading.
+                                                              if (!snapshot
+                                                                  .hasData) {
+                                                                return Center(
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: 50.0,
+                                                                    height:
+                                                                        50.0,
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      valueColor:
+                                                                          AlwaysStoppedAnimation<
+                                                                              Color>(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+
+                                                              final textTipoExpRecord =
+                                                                  snapshot
+                                                                      .data!;
+
+                                                              return Text(
+                                                                textTipoExpRecord
+                                                                    .titulo,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .inter(
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      15.0,
+                                                                      0.0),
+                                                          child: Text(
+                                                            listViewExperienciaRecord
+                                                                .pais,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font:
+                                                                      GoogleFonts
+                                                                          .inter(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]
+                                                  .divide(
+                                                      SizedBox(height: 10.0))
+                                                  .around(
+                                                      SizedBox(height: 10.0)),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: AlignmentDirectional(0.0, 1.0),
-                  child: wrapWithModel(
-                    model: _model.navbarModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: NavbarWidget(
-                      selectedPage: 1,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             if (false)
               Align(

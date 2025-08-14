@@ -1,4 +1,3 @@
-import '/componentes/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'experiencias_anf_widget.dart' show ExperienciasAnfWidget;
@@ -14,17 +13,11 @@ class ExperienciasAnfModel extends FlutterFlowModel<ExperienciasAnfWidget> {
   int get tabBarPreviousIndex =>
       tabBarController != null ? tabBarController!.previousIndex : 0;
 
-  // Model for navbar component.
-  late NavbarModel navbarModel;
-
   @override
-  void initState(BuildContext context) {
-    navbarModel = createModel(context, () => NavbarModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
   void dispose() {
     tabBarController?.dispose();
-    navbarModel.dispose();
   }
 }

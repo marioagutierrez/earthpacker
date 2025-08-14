@@ -20,7 +20,12 @@ import 'add_experiencia_institucion_model.dart';
 export 'add_experiencia_institucion_model.dart';
 
 class AddExperienciaInstitucionWidget extends StatefulWidget {
-  const AddExperienciaInstitucionWidget({super.key});
+  const AddExperienciaInstitucionWidget({
+    super.key,
+    this.back,
+  });
+
+  final bool? back;
 
   static String routeName = 'add_experienciaInstitucion';
   static String routePath = '/addExperienciaInstitucion';
@@ -74,11 +79,31 @@ class _AddExperienciaInstitucionWidgetState
             child: Container(
               decoration: BoxDecoration(),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(5.0, 50.0, 5.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      if (widget.back ?? true)
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.safePop();
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 40.0,
+                              ),
+                            ),
+                          ],
+                        ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -1398,6 +1423,7 @@ class _AddExperienciaInstitucionWidgetState
                                 imagen: _model.imageSelected,
                                 ubicacionString:
                                     _model.placePickerValue.address,
+                                institucion: true,
                               ),
                               ...mapToFirestore(
                                 {

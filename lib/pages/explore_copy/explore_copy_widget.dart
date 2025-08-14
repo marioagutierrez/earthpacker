@@ -1,14 +1,16 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/componentes/free_trip/free_trip_widget.dart';
-import '/componentes/navbar/navbar_widget.dart';
-import '/components/ubicacion_info_widget.dart';
+import '/componentes/ubicacion_info/ubicacion_info_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'explore_copy_model.dart';
 export 'explore_copy_model.dart';
 
@@ -33,6 +35,24 @@ class _ExploreCopyWidgetState extends State<ExploreCopyWidget> {
     super.initState();
     _model = createModel(context, () => ExploreCopyModel());
 
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      currentUserLocationValue =
+          await getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0));
+      if (FFAppState().rastrear) {
+        _model.userDoc =
+            await UsersRecord.getDocumentOnce(currentUserReference!);
+
+        await _model.userDoc!.lacation!.update(createUbicacionesRecordData(
+          lat:
+              functions.getCoordsFromLatLng(currentUserLocationValue!).latitude,
+          long: functions
+              .getCoordsFromLatLng(currentUserLocationValue!)
+              .longitude,
+        ));
+      }
+    });
+
     getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
         .then((loc) => safeSetState(() => currentUserLocationValue = loc));
   }
@@ -46,6 +66,7 @@ class _ExploreCopyWidgetState extends State<ExploreCopyWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
     if (currentUserLocationValue == null) {
       return Container(
         color: FlutterFlowTheme.of(context).primaryBackground,
@@ -64,7 +85,12 @@ class _ExploreCopyWidgetState extends State<ExploreCopyWidget> {
     }
 
     return StreamBuilder<List<UbicacionesRecord>>(
-      stream: queryUbicacionesRecord(),
+      stream: queryUbicacionesRecord(
+        queryBuilder: (ubicacionesRecord) => ubicacionesRecord.where(
+          'visible',
+          isEqualTo: true,
+        ),
+      ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -94,116 +120,93 @@ class _ExploreCopyWidgetState extends State<ExploreCopyWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-            body: SafeArea(
-              top: true,
-              child: Stack(
-                children: [
-                  Padding(
+            body: Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: custom_widgets.FirestoreMap(
+                    width: double.infinity,
+                    height: double.infinity,
+                    centerLatitude: functions
+                        .getCoordsFromLatLng(currentUserLocationValue!)
+                        .latitude,
+                    centerLongitude: functions
+                        .getCoordsFromLatLng(currentUserLocationValue!)
+                        .longitude,
+                    showLocation: true,
+                    showCompass: true,
+                    showMapToolbar: false,
+                    showTraffic: false,
+                    allowZoom: true,
+                    showZoomControls: true,
+                    defaultZoom: 14.0,
+                    places: exploreCopyUbicacionesRecordList,
+                    onClickMarker: (placeRow) async {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: UbicacionInfoWidget(
+                                data: placeRow!,
+                              ),
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: AlignmentDirectional(0.0, 1.0),
+                  child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 80.0),
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: custom_widgets.FirestoreMap(
-                        width: double.infinity,
-                        height: double.infinity,
-                        centerLatitude: functions
-                            .getCoordsFromLatLng(currentUserLocationValue!)
-                            .latitude,
-                        centerLongitude: functions
-                            .getCoordsFromLatLng(currentUserLocationValue!)
-                            .longitude,
-                        showLocation: true,
-                        showCompass: true,
-                        showMapToolbar: false,
-                        showTraffic: false,
-                        allowZoom: true,
-                        showZoomControls: true,
-                        defaultZoom: 14.0,
-                        places: exploreCopyUbicacionesRecordList,
-                        onClickMarker: (placeRow) async {
-                          await showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            enableDrag: false,
-                            context: context,
-                            builder: (context) {
-                              return GestureDetector(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                },
-                                child: Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: UbicacionInfoWidget(
-                                    data: placeRow!,
-                                  ),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        await showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Color(0x88000000),
+                          enableDrag: false,
+                          context: context,
+                          builder: (context) {
+                            return GestureDetector(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              child: Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: Container(
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.9,
+                                  child: FreeTripWidget(),
                                 ),
-                              );
-                            },
-                          ).then((value) => safeSetState(() {}));
-                        },
-                      ),
-                    ),
-                  ),
-                  wrapWithModel(
-                    model: _model.navbarModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: NavbarWidget(
-                      selectedPage: 4,
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional(0.0, 1.0),
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 100.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          await showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Color(0x88000000),
-                            enableDrag: false,
-                            context: context,
-                            builder: (context) {
-                              return GestureDetector(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                },
-                                child: Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: Container(
-                                    height:
-                                        MediaQuery.sizeOf(context).height * 0.9,
-                                    child: FreeTripWidget(),
-                                  ),
-                                ),
-                              );
-                            },
-                          ).then((value) => safeSetState(() {}));
-                        },
-                        text: 'Solicitar Viaje',
-                        options: FFButtonOptions(
-                          height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).alternate,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    font: GoogleFonts.interTight(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    fontSize: 13.0,
-                                    letterSpacing: 0.0,
+                              ),
+                            );
+                          },
+                        ).then((value) => safeSetState(() {}));
+                      },
+                      text: 'Solicitar Viaje',
+                      options: FFButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).alternate,
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  font: GoogleFonts.interTight(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -211,14 +214,23 @@ class _ExploreCopyWidgetState extends State<ExploreCopyWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                          elevation: 0.0,
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
+                                  color: Colors.white,
+                                  fontSize: 13.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                        elevation: 0.0,
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

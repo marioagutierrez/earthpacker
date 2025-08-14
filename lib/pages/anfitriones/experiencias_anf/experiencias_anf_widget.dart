@@ -1,8 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/componentes/experiencia_anf/experiencia_anf_widget.dart';
-import '/componentes/navbar/navbar_widget.dart';
-import '/components/solicitud_widget.dart';
+import '/componentes/solicitud/solicitud_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -64,28 +63,43 @@ class _ExperienciasAnfWidgetState extends State<ExperienciasAnfWidget>
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Mis Posiciones',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.inter(
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              fontSize: 18.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                      ),
-                    ],
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          Icons.arrow_back,
+                          color: FlutterFlowTheme.of(context).primaryText,
+                          size: 24.0,
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 110.0, 0.0),
+                          child: Text(
+                            'Mis Posiciones',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                                  fontSize: 18.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding:
@@ -153,7 +167,14 @@ class _ExperienciasAnfWidgetState extends State<ExperienciasAnfWidget>
                             if (valueOrDefault<bool>(
                                 currentUserDocument?.intituto, false)) {
                               context.pushNamed(
-                                  AddExperienciaInstitucionWidget.routeName);
+                                AddExperienciaInstitucionWidget.routeName,
+                                queryParameters: {
+                                  'back': serializeParam(
+                                    true,
+                                    ParamType.bool,
+                                  ),
+                                }.withoutNulls,
+                              );
                             } else {
                               context.pushNamed(AddExperienciaWidget.routeName);
                             }
@@ -302,10 +323,15 @@ class _ExperienciasAnfWidgetState extends State<ExperienciasAnfWidget>
                               StreamBuilder<List<SolicitudesRecord>>(
                                 stream: querySolicitudesRecord(
                                   queryBuilder: (solicitudesRecord) =>
-                                      solicitudesRecord.where(
-                                    'anfitrion',
-                                    isEqualTo: currentUserReference,
-                                  ),
+                                      solicitudesRecord
+                                          .where(
+                                            'anfitrion',
+                                            isEqualTo: currentUserReference,
+                                          )
+                                          .where(
+                                            'status',
+                                            isEqualTo: 0,
+                                          ),
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
@@ -357,13 +383,6 @@ class _ExperienciasAnfWidgetState extends State<ExperienciasAnfWidget>
                     ),
                   ),
                 ],
-              ),
-            ),
-            wrapWithModel(
-              model: _model.navbarModel,
-              updateCallback: () => safeSetState(() {}),
-              child: NavbarWidget(
-                selectedPage: 3,
               ),
             ),
           ],

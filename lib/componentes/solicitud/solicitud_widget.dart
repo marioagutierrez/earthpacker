@@ -1,7 +1,10 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/componentes/perfil_turista/perfil_turista_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'solicitud_model.dart';
@@ -82,30 +85,59 @@ class _SolicitudWidgetState extends State<SolicitudWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          width: 30.0,
-                          height: 30.0,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        await showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Color(0x72000000),
+                          enableDrag: false,
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: PerfilTuristaWidget(
+                                turista: rowUsersRecord,
+                              ),
+                            );
+                          },
+                        ).then((value) => safeSetState(() {}));
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                            width: 30.0,
+                            height: 30.0,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.network(
+                              rowUsersRecord.photoUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          child: Image.network(
-                            rowUsersRecord.photoUrl,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              6.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            rowUsersRecord.displayName,
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.inter(
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                6.0, 0.0, 0.0, 0.0),
+                            child: Text(
+                              rowUsersRecord.displayName,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -113,17 +145,10 @@ class _SolicitudWidgetState extends State<SolicitudWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Text(
                       dateTimeFormat("yMd", widget.solicitud!.dateCreation!),
@@ -280,8 +305,60 @@ class _SolicitudWidgetState extends State<SolicitudWidget> {
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 7.0, 0.0, 0.0),
                 child: FFButtonWidget(
-                  onPressed: () {
-                    print('Button pressed ...');
+                  onPressed: () async {
+                    var chatsRecordReference = ChatsRecord.collection.doc();
+                    await chatsRecordReference.set(createChatsRecordData(
+                      userA: currentUserReference,
+                      userB: widget.solicitud?.usuario,
+                      user: currentUserReference,
+                      lastMessage: ' ',
+                      lastMessageTime: getCurrentTimestamp,
+                      image: ' ',
+                      messageSeen: false,
+                    ));
+                    _model.chatCreado = ChatsRecord.getDocumentFromData(
+                        createChatsRecordData(
+                          userA: currentUserReference,
+                          userB: widget.solicitud?.usuario,
+                          user: currentUserReference,
+                          lastMessage: ' ',
+                          lastMessageTime: getCurrentTimestamp,
+                          image: ' ',
+                          messageSeen: false,
+                        ),
+                        chatsRecordReference);
+
+                    await widget.solicitud!.reference
+                        .update(createSolicitudesRecordData(
+                      status: 1,
+                      chatRef: _model.chatCreado?.reference,
+                    ));
+
+                    await ChatMessageRecord.collection
+                        .doc()
+                        .set(createChatMessageRecordData(
+                          user: currentUserReference,
+                          chatMessage: _model.chatCreado?.reference,
+                          text: 'Hola soy Homosexual',
+                          timetamp: getCurrentTimestamp,
+                          image: ' ',
+                        ));
+
+                    context.pushNamed(
+                      ConvesationWidget.routeName,
+                      queryParameters: {
+                        'chatRef': serializeParam(
+                          _model.chatCreado?.reference,
+                          ParamType.DocumentReference,
+                        ),
+                        'chatUser': serializeParam(
+                          _model.chatCreado?.userB,
+                          ParamType.DocumentReference,
+                        ),
+                      }.withoutNulls,
+                    );
+
+                    safeSetState(() {});
                   },
                   text: 'Pre Aprobar',
                   options: FFButtonOptions(

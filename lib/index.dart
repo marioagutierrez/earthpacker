@@ -38,3 +38,6 @@ export '/pages/anfitriones/add_experiencia_institucion/add_experiencia_instituci
     show AddExperienciaInstitucionWidget;
 export '/pages/home_page_student/home_page_student_widget.dart'
     show HomePageStudentWidget;
+export '/pages/plans/plans_widget.dart' show PlansWidget;
+export '/pages/payment/payment_widget.dart' show PaymentWidget;
+export '/pages/viajes/viajes_widget.dart' show ViajesWidget;

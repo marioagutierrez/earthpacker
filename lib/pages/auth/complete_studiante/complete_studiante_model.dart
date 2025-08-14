@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'complete_studiante_widget.dart' show CompleteStudianteWidget;
@@ -33,6 +34,8 @@ class CompleteStudianteModel extends FlutterFlowModel<CompleteStudianteWidget> {
   String? Function(BuildContext, String?)? textController5Validator;
   // State field(s) for Checkbox widget.
   bool? checkboxValue;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  StudentsRecord? ref;
 
   @override
   void initState(BuildContext context) {}

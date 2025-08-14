@@ -120,6 +120,21 @@ class UsersRecord extends FirestoreRecord {
   bool get intituto => _intituto ?? false;
   bool hasIntituto() => _intituto != null;
 
+  // "fechaNaci" field.
+  DateTime? _fechaNaci;
+  DateTime? get fechaNaci => _fechaNaci;
+  bool hasFechaNaci() => _fechaNaci != null;
+
+  // "lacation" field.
+  DocumentReference? _lacation;
+  DocumentReference? get lacation => _lacation;
+  bool hasLacation() => _lacation != null;
+
+  // "estudianteRef" field.
+  DocumentReference? _estudianteRef;
+  DocumentReference? get estudianteRef => _estudianteRef;
+  bool hasEstudianteRef() => _estudianteRef != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -142,6 +157,9 @@ class UsersRecord extends FirestoreRecord {
     _inReviewKyc = snapshotData['in_review_kyc'] as bool?;
     _estudiante = snapshotData['estudiante'] as bool?;
     _intituto = snapshotData['intituto'] as bool?;
+    _fechaNaci = snapshotData['fechaNaci'] as DateTime?;
+    _lacation = snapshotData['lacation'] as DocumentReference?;
+    _estudianteRef = snapshotData['estudianteRef'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -198,6 +216,9 @@ Map<String, dynamic> createUsersRecordData({
   bool? inReviewKyc,
   bool? estudiante,
   bool? intituto,
+  DateTime? fechaNaci,
+  DocumentReference? lacation,
+  DocumentReference? estudianteRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -221,6 +242,9 @@ Map<String, dynamic> createUsersRecordData({
       'in_review_kyc': inReviewKyc,
       'estudiante': estudiante,
       'intituto': intituto,
+      'fechaNaci': fechaNaci,
+      'lacation': lacation,
+      'estudianteRef': estudianteRef,
     }.withoutNulls,
   );
 
@@ -253,7 +277,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.verified == e2?.verified &&
         e1?.inReviewKyc == e2?.inReviewKyc &&
         e1?.estudiante == e2?.estudiante &&
-        e1?.intituto == e2?.intituto;
+        e1?.intituto == e2?.intituto &&
+        e1?.fechaNaci == e2?.fechaNaci &&
+        e1?.lacation == e2?.lacation &&
+        e1?.estudianteRef == e2?.estudianteRef;
   }
 
   @override
@@ -278,7 +305,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.verified,
         e?.inReviewKyc,
         e?.estudiante,
-        e?.intituto
+        e?.intituto,
+        e?.fechaNaci,
+        e?.lacation,
+        e?.estudianteRef
       ]);
 
   @override

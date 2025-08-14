@@ -6,6 +6,7 @@ import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
@@ -77,18 +78,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomePageWidget() : OnboardingWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : OnboardingWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? HomePageWidget() : OnboardingWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : OnboardingWidget(),
         ),
         FFRoute(
           name: HomePageWidget.routeName,
           path: HomePageWidget.routePath,
-          builder: (context, params) => HomePageWidget(),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'HomePage')
+              : HomePageWidget(),
         ),
         FFRoute(
           name: CreateAccountWidget.routeName,
@@ -103,7 +106,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: ProfileWidget.routeName,
           path: ProfileWidget.routePath,
-          builder: (context, params) => ProfileWidget(),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'Profile')
+              : ProfileWidget(),
         ),
         FFRoute(
           name: ChatsWidget.routeName,
@@ -180,12 +185,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: AddExperienciaWidget.routeName,
           path: AddExperienciaWidget.routePath,
-          builder: (context, params) => AddExperienciaWidget(),
+          builder: (context, params) => AddExperienciaWidget(
+            back: params.getParam(
+              'back',
+              ParamType.bool,
+            ),
+          ),
         ),
         FFRoute(
           name: AprendeWidget.routeName,
           path: AprendeWidget.routePath,
-          builder: (context, params) => AprendeWidget(),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'aprende')
+              : AprendeWidget(),
         ),
         FFRoute(
           name: ExploreWidget.routeName,
@@ -215,22 +227,46 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: ExperiencesWidget.routeName,
           path: ExperiencesWidget.routePath,
-          builder: (context, params) => ExperiencesWidget(),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'Experiences')
+              : ExperiencesWidget(),
         ),
         FFRoute(
           name: ExploreCopyWidget.routeName,
           path: ExploreCopyWidget.routePath,
-          builder: (context, params) => ExploreCopyWidget(),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'ExploreCopy')
+              : ExploreCopyWidget(),
         ),
         FFRoute(
           name: AddExperienciaInstitucionWidget.routeName,
           path: AddExperienciaInstitucionWidget.routePath,
-          builder: (context, params) => AddExperienciaInstitucionWidget(),
+          builder: (context, params) => AddExperienciaInstitucionWidget(
+            back: params.getParam(
+              'back',
+              ParamType.bool,
+            ),
+          ),
         ),
         FFRoute(
           name: HomePageStudentWidget.routeName,
           path: HomePageStudentWidget.routePath,
           builder: (context, params) => HomePageStudentWidget(),
+        ),
+        FFRoute(
+          name: PlansWidget.routeName,
+          path: PlansWidget.routePath,
+          builder: (context, params) => PlansWidget(),
+        ),
+        FFRoute(
+          name: PaymentWidget.routeName,
+          path: PaymentWidget.routePath,
+          builder: (context, params) => PaymentWidget(),
+        ),
+        FFRoute(
+          name: ViajesWidget.routeName,
+          path: ViajesWidget.routePath,
+          builder: (context, params) => ViajesWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],

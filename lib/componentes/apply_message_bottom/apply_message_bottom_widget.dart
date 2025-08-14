@@ -326,7 +326,7 @@ class _ApplyMessageBottomWidgetState extends State<ApplyMessageBottomWidget> {
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 24.0, 0.0, 44.0),
+                              0.0, 14.0, 0.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
                               await SolicitudesRecord.collection
@@ -379,6 +379,44 @@ class _ApplyMessageBottomWidgetState extends State<ApplyMessageBottomWidget> {
                           ),
                         ),
                       ],
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 14.0, 0.0, 0.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Cancelar',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.inter(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

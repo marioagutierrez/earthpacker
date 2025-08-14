@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+import 'package:provider/provider.dart';
 import 'explore_model.dart';
 export 'explore_model.dart';
 
@@ -45,6 +46,7 @@ class _ExploreWidgetState extends State<ExploreWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
     if (currentUserLocationValue == null) {
       return Container(
         color: FlutterFlowTheme.of(context).primaryBackground,
@@ -163,7 +165,7 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                             allowInteraction: true,
                             allowZoom: true,
                             showZoomControls: true,
-                            showLocation: true,
+                            showLocation: FFAppState().rastrear,
                             showCompass: false,
                             showMapToolbar: true,
                             showTraffic: true,

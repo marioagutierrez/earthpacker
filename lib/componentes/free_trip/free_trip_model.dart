@@ -20,6 +20,10 @@ class FreeTripModel extends FlutterFlowModel<FreeTripWidget> {
   FocusNode? textFieldFocusNode3;
   TextEditingController? textController3;
   String? Function(BuildContext, String?)? textController3Validator;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode4;
+  TextEditingController? textController4;
+  String? Function(BuildContext, String?)? textController4Validator;
 
   @override
   void initState(BuildContext context) {}
@@ -34,5 +38,8 @@ class FreeTripModel extends FlutterFlowModel<FreeTripWidget> {
 
     textFieldFocusNode3?.dispose();
     textController3?.dispose();
+
+    textFieldFocusNode4?.dispose();
+    textController4?.dispose();
   }
 }

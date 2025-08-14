@@ -1,5 +1,4 @@
 import '/backend/backend.dart';
-import '/componentes/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -52,103 +51,150 @@ class _ExperiencesWidgetState extends State<ExperiencesWidget> {
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 60.0, 0.0, 0.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  StreamBuilder<List<ArticulosRecord>>(
-                    stream: queryArticulosRecord(
-                      queryBuilder: (articulosRecord) => articulosRecord.where(
-                        'published',
-                        isEqualTo: true,
-                      ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      'Experiencias',
+                      style: FlutterFlowTheme.of(context).titleMedium.override(
+                            font: GoogleFonts.interTight(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .titleMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleMedium
+                                  .fontStyle,
+                            ),
+                            letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .titleMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleMedium
+                                .fontStyle,
+                          ),
                     ),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50.0,
-                            height: 50.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                FlutterFlowTheme.of(context).primary,
+                    StreamBuilder<List<ComunidadRecord>>(
+                      stream: queryComunidadRecord(
+                        queryBuilder: (comunidadRecord) =>
+                            comunidadRecord.where(
+                          'published',
+                          isEqualTo: true,
+                        ),
+                      ),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50.0,
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }
-                      List<ArticulosRecord> listViewArticulosRecordList =
-                          snapshot.data!;
+                          );
+                        }
+                        List<ComunidadRecord> listViewComunidadRecordList =
+                            snapshot.data!;
 
-                      return ListView.builder(
-                        padding: EdgeInsets.fromLTRB(
-                          0,
-                          0,
-                          0,
-                          20.0,
-                        ),
-                        primary: false,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: listViewArticulosRecordList.length,
-                        itemBuilder: (context, listViewIndex) {
-                          final listViewArticulosRecord =
-                              listViewArticulosRecordList[listViewIndex];
-                          return Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 16.0, 16.0, 16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 40.0,
-                                          height: 40.0,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    2.0, 2.0, 2.0, 2.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              child: Image.asset(
-                                                'assets/images/iconoEarthPackers.png',
-                                                fit: BoxFit.contain,
+                        return ListView.separated(
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
+                          primary: false,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: listViewComunidadRecordList.length,
+                          separatorBuilder: (_, __) => SizedBox(height: 20.0),
+                          itemBuilder: (context, listViewIndex) {
+                            final listViewComunidadRecord =
+                                listViewComunidadRecordList[listViewIndex];
+                            return Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 0.0, 16.0, 0.0),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 4.0,
+                                      color: Color(0x33000000),
+                                      offset: Offset(
+                                        0.0,
+                                        2.0,
+                                      ),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(32.0),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 16.0, 16.0, 16.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: 40.0,
+                                            height: 40.0,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(2.0, 2.0, 2.0, 2.0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                                child: Image.network(
+                                                  valueOrDefault<String>(
+                                                    listViewComunidadRecord
+                                                        .avatar,
+                                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/earth-packer-m7rekc/assets/2i6bo5ap0zeg/playstore.png',
+                                                  ),
+                                                  fit: BoxFit.contain,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              listViewArticulosRecord.autor,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge
-                                                      .override(
-                                                        font: GoogleFonts.inter(
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                listViewComunidadRecord.autor,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyLarge
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyLarge
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyLarge
+                                                                    .fontStyle,
+                                                          ),
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -160,29 +206,30 @@ class _ExperiencesWidgetState extends State<ExperiencesWidget> {
                                                                   .bodyLarge
                                                                   .fontStyle,
                                                         ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyLarge
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyLarge
-                                                                .fontStyle,
-                                                      ),
-                                            ),
-                                            Text(
-                                              dateTimeFormat(
-                                                  "relative",
-                                                  listViewArticulosRecord
-                                                      .createdAt!),
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelSmall
-                                                      .override(
-                                                        font: GoogleFonts.inter(
+                                              ),
+                                              Text(
+                                                dateTimeFormat(
+                                                    "relative",
+                                                    listViewComunidadRecord
+                                                        .createdAt!),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelSmall
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelSmall
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelSmall
+                                                                    .fontStyle,
+                                                          ),
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -194,61 +241,63 @@ class _ExperiencesWidgetState extends State<ExperiencesWidget> {
                                                                   .labelSmall
                                                                   .fontStyle,
                                                         ),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelSmall
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelSmall
-                                                                .fontStyle,
-                                                      ),
-                                            ),
-                                          ].divide(SizedBox(height: 4.0)),
-                                        ),
-                                        FlutterFlowIconButton(
-                                          buttonSize: 32.0,
-                                          icon: Icon(
-                                            Icons.more_vert,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 20.0,
+                                              ),
+                                            ].divide(SizedBox(height: 4.0)),
                                           ),
-                                          onPressed: () {
-                                            print('IconButton pressed ...');
-                                          },
-                                        ),
-                                      ].divide(SizedBox(width: 12.0)),
-                                    ),
-                                    Text(
-                                      listViewArticulosRecord.titulo,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
+                                          Opacity(
+                                            opacity: 0.0,
+                                            child: FlutterFlowIconButton(
+                                              buttonSize: 32.0,
+                                              icon: Icon(
+                                                Icons.more_vert,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                size: 20.0,
+                                              ),
+                                              onPressed: () {
+                                                print('IconButton pressed ...');
+                                              },
+                                            ),
+                                          ),
+                                        ].divide(SizedBox(width: 12.0)),
+                                      ),
+                                      Text(
+                                        listViewComunidadRecord.titulo,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w600,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                    Text(
-                                      listViewArticulosRecord.descripcion,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
+                                      ),
+                                      Text(
+                                        listViewComunidadRecord.descripcion,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              letterSpacing: 0.0,
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -258,59 +307,44 @@ class _ExperiencesWidgetState extends State<ExperiencesWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
+                                      ),
+                                      if (listViewComunidadRecord.imagen != '')
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          child: Image.network(
+                                            valueOrDefault<String>(
+                                              listViewComunidadRecord.imagen,
+                                              'https://images.unsplash.com/photo-1507513319174-e556268bb244?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTIxMTUwNDB8&ixlib=rb-4.1.0&q=80&w=1080',
+                                            ),
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                1.0,
+                                            height: 250.0,
+                                            fit: BoxFit.contain,
                                           ),
-                                    ),
-                                    if (listViewArticulosRecord.imagen != '')
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        child: Image.network(
-                                          valueOrDefault<String>(
-                                            listViewArticulosRecord.imagen,
-                                            'https://images.unsplash.com/photo-1507513319174-e556268bb244?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTIxMTUwNDB8&ixlib=rb-4.1.0&q=80&w=1080',
-                                          ),
-                                          width: double.infinity,
-                                          height: 250.0,
-                                          fit: BoxFit.cover,
                                         ),
-                                      ),
-                                    if (listViewArticulosRecord.video != '')
-                                      FlutterFlowVideoPlayer(
-                                        path:
-                                            'https://assets.mixkit.co/videos/529/529-720.mp4',
-                                        videoType: VideoType.network,
-                                        autoPlay: false,
-                                        looping: true,
-                                        showControls: true,
-                                        allowFullScreen: true,
-                                        allowPlaybackSpeedMenu: false,
-                                      ),
-                                  ].divide(SizedBox(height: 12.0)),
+                                      if (listViewComunidadRecord.video != '')
+                                        FlutterFlowVideoPlayer(
+                                          path: listViewComunidadRecord.video,
+                                          videoType: VideoType.network,
+                                          autoPlay: true,
+                                          looping: true,
+                                          showControls: true,
+                                          allowFullScreen: false,
+                                          allowPlaybackSpeedMenu: false,
+                                        ),
+                                    ].divide(SizedBox(height: 12.0)),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            wrapWithModel(
-              model: _model.navbarModel,
-              updateCallback: () => safeSetState(() {}),
-              child: NavbarWidget(
-                selectedPage: 2,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ].divide(SizedBox(height: 20.0)),
+                ),
               ),
             ),
           ],

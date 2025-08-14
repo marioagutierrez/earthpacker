@@ -20,3 +20,16 @@ CoordsStruct getCoordsFromLatLng(LatLng location) {
     longitude: location?.longitude ?? 0.0,
   );
 }
+
+int calculateAgeFromTimestamp(
+  DateTime birthday,
+  DateTime currentDay,
+) {
+  int age = currentDay.year - birthday.year;
+
+  if (currentDay.month < birthday.month ||
+      (currentDay.month == birthday.month && currentDay.day < birthday.day)) {
+    age--;
+  }
+  return age;
+}

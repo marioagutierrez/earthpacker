@@ -526,8 +526,17 @@ class _LoginWidgetState extends State<LoginWidget>
                                     return;
                                   }
 
-                                  context.goNamedAuth(HomePageWidget.routeName,
-                                      context.mounted);
+                                  context.pushNamedAuth(
+                                    CompleteProfileWidget.routeName,
+                                    context.mounted,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.bottomToTop,
+                                      ),
+                                    },
+                                  );
                                 },
                                 text: 'Continue with Google',
                                 icon: FaIcon(

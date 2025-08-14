@@ -45,6 +45,16 @@ class SolicitudesRecord extends FirestoreRecord {
   DateTime? get dateCreation => _dateCreation;
   bool hasDateCreation() => _dateCreation != null;
 
+  // "intitucional" field.
+  bool? _intitucional;
+  bool get intitucional => _intitucional ?? false;
+  bool hasIntitucional() => _intitucional != null;
+
+  // "chatRef" field.
+  DocumentReference? _chatRef;
+  DocumentReference? get chatRef => _chatRef;
+  bool hasChatRef() => _chatRef != null;
+
   void _initializeFields() {
     _anfitrion = snapshotData['anfitrion'] as DocumentReference?;
     _usuario = snapshotData['usuario'] as DocumentReference?;
@@ -52,6 +62,8 @@ class SolicitudesRecord extends FirestoreRecord {
     _mensaje = snapshotData['mensaje'] as String?;
     _status = castToType<int>(snapshotData['status']);
     _dateCreation = snapshotData['dateCreation'] as DateTime?;
+    _intitucional = snapshotData['intitucional'] as bool?;
+    _chatRef = snapshotData['chatRef'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -95,6 +107,8 @@ Map<String, dynamic> createSolicitudesRecordData({
   String? mensaje,
   int? status,
   DateTime? dateCreation,
+  bool? intitucional,
+  DocumentReference? chatRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -104,6 +118,8 @@ Map<String, dynamic> createSolicitudesRecordData({
       'mensaje': mensaje,
       'status': status,
       'dateCreation': dateCreation,
+      'intitucional': intitucional,
+      'chatRef': chatRef,
     }.withoutNulls,
   );
 
@@ -120,7 +136,9 @@ class SolicitudesRecordDocumentEquality implements Equality<SolicitudesRecord> {
         e1?.posicion == e2?.posicion &&
         e1?.mensaje == e2?.mensaje &&
         e1?.status == e2?.status &&
-        e1?.dateCreation == e2?.dateCreation;
+        e1?.dateCreation == e2?.dateCreation &&
+        e1?.intitucional == e2?.intitucional &&
+        e1?.chatRef == e2?.chatRef;
   }
 
   @override
@@ -130,7 +148,9 @@ class SolicitudesRecordDocumentEquality implements Equality<SolicitudesRecord> {
         e?.posicion,
         e?.mensaje,
         e?.status,
-        e?.dateCreation
+        e?.dateCreation,
+        e?.intitucional,
+        e?.chatRef
       ]);
 
   @override

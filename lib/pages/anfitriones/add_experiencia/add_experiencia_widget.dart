@@ -23,7 +23,12 @@ import 'add_experiencia_model.dart';
 export 'add_experiencia_model.dart';
 
 class AddExperienciaWidget extends StatefulWidget {
-  const AddExperienciaWidget({super.key});
+  const AddExperienciaWidget({
+    super.key,
+    this.back,
+  });
+
+  final bool? back;
 
   static String routeName = 'add_experiencia';
   static String routePath = '/addExperiencia';
@@ -85,16 +90,41 @@ class _AddExperienciaWidgetState extends State<AddExperienciaWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+          padding: EdgeInsetsDirectional.fromSTEB(10.0, 20.0, 10.0, 0.0),
           child: SafeArea(
             child: Container(
               decoration: BoxDecoration(),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(5.0, 50.0, 5.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      if (widget.back ?? true)
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  context.safePop();
+                                },
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  size: 40.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -489,7 +519,7 @@ class _AddExperienciaWidgetState extends State<AddExperienciaWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'Descripcion',
+                                      labelText: 'Descripción',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
@@ -515,7 +545,7 @@ class _AddExperienciaWidgetState extends State<AddExperienciaWidget> {
                                           ),
                                       alignLabelWithHint: false,
                                       hintText:
-                                          'Descripción corta sobre la posicion',
+                                          'Descripción corta sobre la posición',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -2143,7 +2173,7 @@ class _AddExperienciaWidgetState extends State<AddExperienciaWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 10.0, 0.0, 0.0),
                             child: Text(
-                              'Limistes de tiempo',
+                              'Limites de tiempo',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -2997,7 +3027,7 @@ class _AddExperienciaWidgetState extends State<AddExperienciaWidget> {
                               ),
                             ),
                             Text(
-                              '¿Requiere cueta extra?',
+                              '¿Requiere cuota extra?',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(

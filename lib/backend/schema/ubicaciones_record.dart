@@ -60,6 +60,11 @@ class UbicacionesRecord extends FirestoreRecord {
   String get verificationCode => _verificationCode ?? '';
   bool hasVerificationCode() => _verificationCode != null;
 
+  // "visible" field.
+  bool? _visible;
+  bool get visible => _visible ?? false;
+  bool hasVisible() => _visible != null;
+
   void _initializeFields() {
     _titulo = snapshotData['titulo'] as String?;
     _coord = snapshotData['coord'] as LatLng?;
@@ -70,6 +75,7 @@ class UbicacionesRecord extends FirestoreRecord {
     _lat = castToType<double>(snapshotData['lat']);
     _long = castToType<double>(snapshotData['long']);
     _verificationCode = snapshotData['verificationCode'] as String?;
+    _visible = snapshotData['visible'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -116,6 +122,7 @@ Map<String, dynamic> createUbicacionesRecordData({
   double? lat,
   double? long,
   String? verificationCode,
+  bool? visible,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -128,6 +135,7 @@ Map<String, dynamic> createUbicacionesRecordData({
       'lat': lat,
       'long': long,
       'verificationCode': verificationCode,
+      'visible': visible,
     }.withoutNulls,
   );
 
@@ -147,7 +155,8 @@ class UbicacionesRecordDocumentEquality implements Equality<UbicacionesRecord> {
         e1?.mapMarker == e2?.mapMarker &&
         e1?.lat == e2?.lat &&
         e1?.long == e2?.long &&
-        e1?.verificationCode == e2?.verificationCode;
+        e1?.verificationCode == e2?.verificationCode &&
+        e1?.visible == e2?.visible;
   }
 
   @override
@@ -160,7 +169,8 @@ class UbicacionesRecordDocumentEquality implements Equality<UbicacionesRecord> {
         e?.mapMarker,
         e?.lat,
         e?.long,
-        e?.verificationCode
+        e?.verificationCode,
+        e?.visible
       ]);
 
   @override

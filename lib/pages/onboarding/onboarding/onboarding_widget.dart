@@ -509,7 +509,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Awesome Recipes',
+                                          'Destinos Asombrosos',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
                                               .displaySmall
@@ -536,7 +536,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 16.0, 0.0, 0.0),
                                           child: Text(
-                                            'vive experiencias transformadoras. Desarrolla nuevas habilidades. Genera impacto positivo.',
+                                            'Vive experiencias transformadoras. Desarrolla nuevas habilidades. Genera impacto positivo.',
                                             textAlign: TextAlign.center,
                                             style: FlutterFlowTheme.of(context)
                                                 .labelLarge

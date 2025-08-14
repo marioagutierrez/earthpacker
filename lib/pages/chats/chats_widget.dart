@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/componentes/navbar/navbar_widget.dart';
+import '/componentes/start_chat/start_chat_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -30,9 +30,6 @@ class _ChatsWidgetState extends State<ChatsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ChatsModel());
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
   }
 
   @override
@@ -84,6 +81,7 @@ class _ChatsWidgetState extends State<ChatsWidget> {
                 children: [
                   Column(
                     mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -121,130 +119,7 @@ class _ChatsWidgetState extends State<ChatsWidget> {
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 16.0, 10.0),
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 3.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          child: Container(
-                            width: double.infinity,
-                            height: 60.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              borderRadius: BorderRadius.circular(16.0),
-                              border: Border.all(
-                                color: FlutterFlowTheme.of(context).alternate,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Icon(
-                                    Icons.search_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    size: 24.0,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          4.0, 0.0, 4.0, 0.0),
-                                      child: TextFormField(
-                                        controller: _model.textController,
-                                        focusNode: _model.textFieldFocusNode,
-                                        autofocus: false,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'Search conversations...',
-                                          hintStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .bodyLarge
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyLarge
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyLarge
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLarge
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLarge
-                                                        .fontStyle,
-                                              ),
-                                          enabledBorder: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          focusedErrorBorder: InputBorder.none,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.inter(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                        validator: _model
-                                            .textControllerValidator
-                                            .asValidator(context),
-                                      ),
-                                    ),
-                                  ),
-                                  FlutterFlowIconButton(
-                                    buttonSize: 40.0,
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    icon: Icon(
-                                      Icons.tune_rounded,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 16.0, 0.0),
+                            16.0, 30.0, 16.0, 0.0),
                         child: Builder(
                           builder: (context) {
                             final chats = chatsChatsRecordList
@@ -263,373 +138,313 @@ class _ChatsWidgetState extends State<ChatsWidget> {
                                   SizedBox(height: 10.0),
                               itemBuilder: (context, chatsIndex) {
                                 final chatsItem = chats[chatsIndex];
-                                return Stack(
-                                  children: [
-                                    StreamBuilder<UsersRecord>(
-                                      stream: UsersRecord.getDocument(
-                                          chatsItem.user!),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
+                                return StreamBuilder<UsersRecord>(
+                                  stream: UsersRecord.getDocument(
+                                      chatsItem.userA == currentUserReference
+                                          ? chatsItem.userB!
+                                          : chatsItem.userA!),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    final containerUsersRecord = snapshot.data!;
+
+                                    return InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        context.pushNamed(
+                                          ConvesationWidget.routeName,
+                                          queryParameters: {
+                                            'chatRef': serializeParam(
+                                              chatsItem.reference,
+                                              ParamType.DocumentReference,
+                                            ),
+                                            'chatUser': serializeParam(
+                                              chatsItem.userB,
+                                              ParamType.DocumentReference,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12.0, 12.0, 12.0, 12.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        2.0, 2.0, 2.0, 2.0),
+                                                child:
+                                                    StreamBuilder<UsersRecord>(
+                                                  stream:
+                                                      UsersRecord.getDocument(
+                                                          containerUsersRecord
+                                                              .reference),
+                                                  builder: (context, snapshot) {
+                                                    // Customize what your widget looks like when it's loading.
+                                                    if (!snapshot.hasData) {
+                                                      return Center(
+                                                        child: SizedBox(
+                                                          width: 50.0,
+                                                          height: 50.0,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            valueColor:
+                                                                AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primary,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+
+                                                    final circleImageUsersRecord =
+                                                        snapshot.data!;
+
+                                                    return Container(
+                                                      width: 60.0,
+                                                      height: 60.0,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: Image.network(
+                                                        valueOrDefault<String>(
+                                                          circleImageUsersRecord
+                                                              .photoUrl,
+                                                          'https://firebasestorage.googleapis.com/v0/b/earthpacker-50a05.firebasestorage.app/o/Backpack%20Verde.png?alt=media&token=90c28044-1bf0-4376-9b6f-88c2ef978cf9',
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        }
-
-                                        final containerUsersRecord =
-                                            snapshot.data!;
-
-                                        return InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            context.pushNamed(
-                                              ConvesationWidget.routeName,
-                                              queryParameters: {
-                                                'chatRef': serializeParam(
-                                                  chatsItem.reference,
-                                                  ParamType.DocumentReference,
-                                                ),
-                                                'chatUser': serializeParam(
-                                                  chatsItem.user,
-                                                  ParamType.DocumentReference,
-                                                ),
-                                              }.withoutNulls,
-                                            );
-                                          },
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 80.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      12.0, 12.0, 12.0, 12.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  if (currentUserReference !=
-                                                      chatsItem.userB)
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  2.0,
-                                                                  2.0,
-                                                                  2.0,
-                                                                  2.0),
-                                                      child: StreamBuilder<
-                                                          UsersRecord>(
-                                                        stream: UsersRecord
-                                                            .getDocument(
-                                                                containerUsersRecord
-                                                                    .reference),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Customize what your widget looks like when it's loading.
-                                                          if (!snapshot
-                                                              .hasData) {
-                                                            return Center(
-                                                              child: SizedBox(
-                                                                width: 50.0,
-                                                                height: 50.0,
-                                                                child:
-                                                                    CircularProgressIndicator(
-                                                                  valueColor:
-                                                                      AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          }
-
-                                                          final circleImageUsersRecord =
-                                                              snapshot.data!;
-
-                                                          return Container(
-                                                            width: 60.0,
-                                                            height: 60.0,
-                                                            clipBehavior:
-                                                                Clip.antiAlias,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                            ),
-                                                            child:
-                                                                Image.network(
-                                                              valueOrDefault<
-                                                                  String>(
-                                                                circleImageUsersRecord
-                                                                    .photoUrl,
-                                                                'https://firebasestorage.googleapis.com/v0/b/earthpacker-50a05.firebasestorage.app/o/Backpack%20Verde.png?alt=media&token=90c28044-1bf0-4376-9b6f-88c2ef978cf9',
-                                                              ),
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  if (currentUserReference ==
-                                                      chatsItem.userA)
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  2.0,
-                                                                  2.0,
-                                                                  2.0,
-                                                                  2.0),
-                                                      child: StreamBuilder<
-                                                          UsersRecord>(
-                                                        stream: UsersRecord
-                                                            .getDocument(
-                                                                containerUsersRecord
-                                                                    .reference),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Customize what your widget looks like when it's loading.
-                                                          if (!snapshot
-                                                              .hasData) {
-                                                            return Center(
-                                                              child: SizedBox(
-                                                                width: 50.0,
-                                                                height: 50.0,
-                                                                child:
-                                                                    CircularProgressIndicator(
-                                                                  valueColor:
-                                                                      AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          }
-
-                                                          final circleImageUsersRecord =
-                                                              snapshot.data!;
-
-                                                          return Container(
-                                                            width: 60.0,
-                                                            height: 60.0,
-                                                            clipBehavior:
-                                                                Clip.antiAlias,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                            ),
-                                                            child:
-                                                                Image.network(
-                                                              valueOrDefault<
-                                                                  String>(
-                                                                circleImageUsersRecord
-                                                                    .photoUrl,
-                                                                'https://firebasestorage.googleapis.com/v0/b/earthpacker-50a05.firebasestorage.app/o/Backpack%20Verde.png?alt=media&token=90c28044-1bf0-4376-9b6f-88c2ef978cf9',
-                                                              ),
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  Expanded(
-                                                    child: Column(
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
                                                       mainAxisSize:
-                                                          MainAxisSize.min,
+                                                          MainAxisSize.max,
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                              .spaceBetween,
                                                       children: [
-                                                        Row(
+                                                        Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
                                                           children: [
-                                                            Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                if (currentUserReference !=
-                                                                    chatsItem
-                                                                        .userA)
-                                                                  StreamBuilder<
-                                                                      UsersRecord>(
-                                                                    stream: UsersRecord.getDocument(
-                                                                        containerUsersRecord
-                                                                            .reference),
-                                                                    builder:
-                                                                        (context,
-                                                                            snapshot) {
-                                                                      // Customize what your widget looks like when it's loading.
-                                                                      if (!snapshot
-                                                                          .hasData) {
-                                                                        return Center(
-                                                                          child:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                50.0,
-                                                                            height:
-                                                                                50.0,
-                                                                            child:
-                                                                                CircularProgressIndicator(
-                                                                              valueColor: AlwaysStoppedAnimation<Color>(
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                              ),
-                                                                            ),
+                                                            if (currentUserReference !=
+                                                                chatsItem.userA)
+                                                              StreamBuilder<
+                                                                  UsersRecord>(
+                                                                stream: UsersRecord
+                                                                    .getDocument(
+                                                                        chatsItem
+                                                                            .userB!),
+                                                                builder: (context,
+                                                                    snapshot) {
+                                                                  // Customize what your widget looks like when it's loading.
+                                                                  if (!snapshot
+                                                                      .hasData) {
+                                                                    return Center(
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width:
+                                                                            50.0,
+                                                                        height:
+                                                                            50.0,
+                                                                        child:
+                                                                            CircularProgressIndicator(
+                                                                          valueColor:
+                                                                              AlwaysStoppedAnimation<Color>(
+                                                                            FlutterFlowTheme.of(context).primary,
                                                                           ),
-                                                                        );
-                                                                      }
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  }
 
-                                                                      final textUsersRecord =
-                                                                          snapshot
-                                                                              .data!;
+                                                                  final textUsersRecord =
+                                                                      snapshot
+                                                                          .data!;
 
-                                                                      return Text(
-                                                                        textUsersRecord
-                                                                            .displayName,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyLarge
-                                                                            .override(
-                                                                              font: GoogleFonts.inter(
-                                                                                fontWeight: FlutterFlowTheme.of(context).bodyLarge.fontWeight,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyLarge.fontStyle,
-                                                                              ),
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FlutterFlowTheme.of(context).bodyLarge.fontWeight,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyLarge.fontStyle,
-                                                                            ),
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                if (currentUserReference ==
-                                                                    chatsItem
-                                                                        .userA)
-                                                                  StreamBuilder<
-                                                                      UsersRecord>(
-                                                                    stream: UsersRecord.getDocument(
-                                                                        containerUsersRecord
-                                                                            .reference),
-                                                                    builder:
-                                                                        (context,
-                                                                            snapshot) {
-                                                                      // Customize what your widget looks like when it's loading.
-                                                                      if (!snapshot
-                                                                          .hasData) {
-                                                                        return Center(
-                                                                          child:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                50.0,
-                                                                            height:
-                                                                                50.0,
-                                                                            child:
-                                                                                CircularProgressIndicator(
-                                                                              valueColor: AlwaysStoppedAnimation<Color>(
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                              ),
-                                                                            ),
+                                                                  return Text(
+                                                                    textUsersRecord
+                                                                        .displayName,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyLarge
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.inter(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).bodyLarge.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyLarge.fontStyle,
                                                                           ),
-                                                                        );
-                                                                      }
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyLarge
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyLarge
+                                                                              .fontStyle,
+                                                                        ),
+                                                                  );
+                                                                },
+                                                              ),
+                                                            if (currentUserReference !=
+                                                                chatsItem.userB)
+                                                              StreamBuilder<
+                                                                  UsersRecord>(
+                                                                stream: UsersRecord
+                                                                    .getDocument(
+                                                                        chatsItem
+                                                                            .userB!),
+                                                                builder: (context,
+                                                                    snapshot) {
+                                                                  // Customize what your widget looks like when it's loading.
+                                                                  if (!snapshot
+                                                                      .hasData) {
+                                                                    return Center(
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width:
+                                                                            50.0,
+                                                                        height:
+                                                                            50.0,
+                                                                        child:
+                                                                            CircularProgressIndicator(
+                                                                          valueColor:
+                                                                              AlwaysStoppedAnimation<Color>(
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  }
 
-                                                                      final textUsersRecord =
-                                                                          snapshot
-                                                                              .data!;
+                                                                  final textUsersRecord =
+                                                                      snapshot
+                                                                          .data!;
 
-                                                                      return Text(
-                                                                        textUsersRecord
-                                                                            .displayName,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyLarge
-                                                                            .override(
-                                                                              font: GoogleFonts.inter(
-                                                                                fontWeight: FlutterFlowTheme.of(context).bodyLarge.fontWeight,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyLarge.fontStyle,
-                                                                              ),
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FlutterFlowTheme.of(context).bodyLarge.fontWeight,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyLarge.fontStyle,
-                                                                            ),
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                              ],
-                                                            ),
-                                                            Text(
-                                                              dateTimeFormat(
-                                                                  "relative",
-                                                                  chatsItem
-                                                                      .lastMessageTime!),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .labelSmall
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .inter(
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelSmall
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelSmall
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: FlutterFlowTheme.of(
+                                                                  return Text(
+                                                                    containerUsersRecord
+                                                                        .displayName,
+                                                                    style: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .secondaryText,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                            ),
+                                                                        .bodyLarge
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.inter(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).bodyLarge.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyLarge.fontStyle,
+                                                                          ),
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyLarge
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyLarge
+                                                                              .fontStyle,
+                                                                        ),
+                                                                  );
+                                                                },
+                                                              ),
                                                           ],
                                                         ),
                                                         Text(
-                                                          chatsItem.lastMessage,
-                                                          maxLines: 1,
+                                                          dateTimeFormat(
+                                                              "relative",
+                                                              chatsItem
+                                                                  .lastMessageTime!),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
+                                                              .labelSmall
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelSmall
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryText,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelSmall
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelSmall
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                      chatsItem.lastMessage
+                                                          .maybeHandleOverflow(
+                                                        maxChars: 30,
+                                                        replacement: '…',
+                                                      ),
+                                                      maxLines: 1,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
                                                               .bodySmall
                                                               .override(
                                                                 font:
@@ -658,19 +473,17 @@ class _ChatsWidgetState extends State<ChatsWidget> {
                                                                     .bodySmall
                                                                     .fontStyle,
                                                               ),
-                                                        ),
-                                                      ].divide(SizedBox(
-                                                          height: 4.0)),
                                                     ),
-                                                  ),
-                                                ].divide(SizedBox(width: 12.0)),
+                                                  ].divide(
+                                                      SizedBox(height: 4.0)),
+                                                ),
                                               ),
-                                            ),
+                                            ].divide(SizedBox(width: 12.0)),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             );
@@ -679,10 +492,45 @@ class _ChatsWidgetState extends State<ChatsWidget> {
                       ),
                     ],
                   ),
-                  wrapWithModel(
-                    model: _model.navbarModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: NavbarWidget(),
+                  Align(
+                    alignment: AlignmentDirectional(1.0, 1.0),
+                    child: Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 100.0),
+                      child: FlutterFlowIconButton(
+                        borderRadius: 32.0,
+                        buttonSize: 60.0,
+                        fillColor: Color(0xAF43473B),
+                        icon: Icon(
+                          Icons.chat,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        onPressed: () async {
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (context) {
+                              return GestureDetector(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                },
+                                child: Padding(
+                                  padding: MediaQuery.viewInsetsOf(context),
+                                  child: Container(
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 0.7,
+                                    child: StartChatWidget(),
+                                  ),
+                                ),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),

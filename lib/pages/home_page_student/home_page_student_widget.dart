@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'home_page_student_model.dart';
 export 'home_page_student_model.dart';
@@ -28,6 +29,8 @@ class _HomePageStudentWidgetState extends State<HomePageStudentWidget> {
   late HomePageStudentModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  late StreamSubscription<bool> _keyboardVisibilitySubscription;
+  bool _isKeyboardVisible = false;
 
   @override
   void initState() {
@@ -45,6 +48,15 @@ class _HomePageStudentWidgetState extends State<HomePageStudentWidget> {
       }
     });
 
+    if (!isWeb) {
+      _keyboardVisibilitySubscription =
+          KeyboardVisibilityController().onChange.listen((bool visible) {
+        safeSetState(() {
+          _isKeyboardVisible = visible;
+        });
+      });
+    }
+
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
   }
@@ -53,6 +65,9 @@ class _HomePageStudentWidgetState extends State<HomePageStudentWidget> {
   void dispose() {
     _model.dispose();
 
+    if (!isWeb) {
+      _keyboardVisibilitySubscription.cancel();
+    }
     super.dispose();
   }
 
@@ -247,97 +262,6 @@ class _HomePageStudentWidgetState extends State<HomePageStudentWidget> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 20.0, 0.0, 0.0),
-                            child: StreamBuilder<List<TipoExpRecord>>(
-                              stream: queryTipoExpRecord(),
-                              builder: (context, snapshot) {
-                                // Customize what your widget looks like when it's loading.
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: SizedBox(
-                                      width: 50.0,
-                                      height: 50.0,
-                                      child: CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                          FlutterFlowTheme.of(context).primary,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                                List<TipoExpRecord> rowTipoExpRecordList =
-                                    snapshot.data!;
-
-                                return SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: List.generate(
-                                        rowTipoExpRecordList.length,
-                                        (rowIndex) {
-                                      final rowTipoExpRecord =
-                                          rowTipoExpRecordList[rowIndex];
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 10.0, 8.0, 4.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: Image.network(
-                                                rowTipoExpRecord.image,
-                                                width: 43.0,
-                                                height: 40.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            rowTipoExpRecord.titulo,
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ],
-                                      );
-                                    }).divide(SizedBox(width: 10.0)),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
                           Divider(
                             thickness: 2.0,
                             color: Color(0xFFDCDCDC),
@@ -447,16 +371,19 @@ class _HomePageStudentWidgetState extends State<HomePageStudentWidget> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: AlignmentDirectional(0.0, 1.0),
-                  child: wrapWithModel(
-                    model: _model.navbarModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: NavbarWidget(
-                      selectedPage: 1,
+                if (!(isWeb
+                    ? MediaQuery.viewInsetsOf(context).bottom > 0
+                    : _isKeyboardVisible))
+                  Align(
+                    alignment: AlignmentDirectional(0.0, 1.0),
+                    child: wrapWithModel(
+                      model: _model.navbarModel,
+                      updateCallback: () => safeSetState(() {}),
+                      child: NavbarWidget(
+                        selectedPage: 1,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             if (false)

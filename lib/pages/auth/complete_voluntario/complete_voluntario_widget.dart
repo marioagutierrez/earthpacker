@@ -6,7 +6,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'complete_voluntario_model.dart';
 export 'complete_voluntario_model.dart';
 
@@ -31,10 +30,6 @@ class _CompleteVoluntarioWidgetState extends State<CompleteVoluntarioWidget> {
     super.initState();
     _model = createModel(context, () => CompleteVoluntarioModel());
 
-    _model.textController1 ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
-
-    _model.textFieldMask = MaskTextInputFormatter(mask: '##/##/####');
     _model.profesionTextController ??= TextEditingController();
     _model.profesionFocusNode ??= FocusNode();
 
@@ -101,7 +96,7 @@ class _CompleteVoluntarioWidgetState extends State<CompleteVoluntarioWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 0.0, 0.0),
                       child: Text(
-                        'Fecha de nacimineto',
+                        'Profesión, estudios o dedicación',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.inter(
                                 fontWeight: FlutterFlowTheme.of(context)
@@ -123,150 +118,6 @@ class _CompleteVoluntarioWidgetState extends State<CompleteVoluntarioWidget> {
                     ),
                   ],
                 ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: 60.0,
-                        child: TextFormField(
-                          controller: _model.textController1,
-                          focusNode: _model.textFieldFocusNode,
-                          autofocus: false,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            labelStyle: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .override(
-                                  font: GoogleFonts.inter(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontStyle,
-                                  ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontStyle,
-                                ),
-                            hintText: 'Fecha de nacimineto',
-                            hintStyle: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .override(
-                                  font: GoogleFonts.inter(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontStyle,
-                                  ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontStyle,
-                                ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            filled: true,
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                          keyboardType: TextInputType.datetime,
-                          cursorColor: FlutterFlowTheme.of(context).primaryText,
-                          validator: _model.textController1Validator
-                              .asValidator(context),
-                          inputFormatters: [_model.textFieldMask],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 0.0, 0.0),
-                    child: Text(
-                      'Profesión, estudios o dedicación',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontWeight,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                            letterSpacing: 0.0,
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                    ),
-                  ),
-                ],
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
